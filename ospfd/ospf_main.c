@@ -144,6 +144,9 @@ int main(int argc, char **argv)
 		    "  -n, --instance     Set the instance id\n"
 		    "  -a, --apiserver    Enable OSPF apiserver\n");
 
+	// Guard to prevent a second instance of this daemon
+        frr_process_guard();
+	
 	while (1) {
 		int opt;
 

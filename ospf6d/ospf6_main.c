@@ -179,8 +179,11 @@ int main(int argc, char *argv[], char *envp[])
 
 	frr_preinit(&ospf6d_di, argc, argv);
 	frr_opt_add("", longopts, "");
-
-	/* Command line argument treatment. */
+        
+        // Guard to prevent a second instance of this daemon
+        frr_process_guard();
+	
+        /* Command line argument treatment. */
 	while (1) {
 		opt = frr_getopt(argc, argv, NULL);
 

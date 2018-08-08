@@ -261,6 +261,35 @@ bool frr_zclient_addr(struct sockaddr_storage *sa, socklen_t *sa_len,
 
 static struct frr_daemon_info *di = NULL;
 
+void frr_process_guard(void)
+{
+        int fd; 
+        struct flock lock;
+        const char *path =   pidfile_default ;
+        
+        fd = open(path, O_RDWR );
+        if (-1 != fd) {
+                
+                memset(&lock, 0, sizeof(lock));
+                set_cloexec(fd);
+                lock.l_type = F_WRLCK;
+                lock.l_whence = SEEK_SET;
+
+                if (fcntl(fd, F_GETLK, &lock) < 0) {
+                        zlog_err("Could not do F_GETLK pid_file %s (%s), exiting",
+                                 path, safe_strerror(errno));
+                        exit(1);
+                }
+                else if (lock.l_type == F_WRLCK) {
+                        zlog_err("Process %d has a write lock on file %s already! Error :( %s) \n", 
+                                 lock.l_pid, path, safe_strerror(errno) );
+                        exit(1);
+                }
+                close(fd); 
+        }
+}
+
+ 
 void frr_preinit(struct frr_daemon_info *daemon, int argc, char **argv)
 {
 	di = daemon;

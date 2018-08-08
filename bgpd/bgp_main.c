@@ -356,7 +356,10 @@ int main(int argc, char **argv)
 		"  -S, --skip_runas   Skip capabilities checks, and changing user and group IDs.\n"
 		"  -e, --ecmp         Specify ECMP to use.\n");
 
-	/* Command line argument treatment. */
+	// Guard to prevent a second instance of this daemon
+        frr_process_guard();
+	
+        /* Command line argument treatment. */
 	while (1) {
 		opt = frr_getopt(argc, argv, 0);
 

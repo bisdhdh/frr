@@ -137,7 +137,10 @@ int main(int argc, char **argv)
 	frr_preinit(&ripd_di, argc, argv);
 
 	frr_opt_add("" DEPRECATED_OPTIONS, longopts, "");
-
+        
+        // Guard to prevent a second instance of this daemon
+        frr_process_guard();
+	
 	/* Command line option parse. */
 	while (1) {
 		int opt;
