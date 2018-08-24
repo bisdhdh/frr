@@ -85,6 +85,9 @@ int main(int argc, char **argv, char **envp)
 {
 	frr_preinit(&pimd_di, argc, argv);
 	frr_opt_add("", longopts, "");
+        
+        // Guard to prevent a second instance of this daemon
+        frr_process_guard(); 
 
 	/* this while just reads the options */
 	while (1) {

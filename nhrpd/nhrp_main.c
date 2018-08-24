@@ -124,8 +124,11 @@ int main(int argc, char **argv)
 {
 	frr_preinit(&nhrpd_di, argc, argv);
 	frr_opt_add("", longopts, "");
-
-	parse_arguments(argc, argv);
+        
+        // Guard to prevent a second instance of this daemon
+        frr_process_guard();
+	
+        parse_arguments(argc, argv);
 
 	/* Library inits. */
 	master = frr_init();

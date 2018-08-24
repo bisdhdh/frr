@@ -225,7 +225,10 @@ main(int argc, char *argv[])
 	frr_opt_add("LEn:", longopts,
 		"      --ctl_socket   Override ctl socket path\n"
 		"  -n, --instance     Instance id\n");
-
+        
+        // Guard to prevent a second instance of this daemon
+        frr_process_guard();
+	
 	while (1) {
 		int opt;
 

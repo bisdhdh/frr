@@ -124,7 +124,10 @@ int main(int argc, char **argv, char **envp)
 {
 	frr_preinit(&pbrd_di, argc, argv);
 	frr_opt_add("", longopts, "");
-
+        
+        // Guard to prevent a second instance of this daemon
+        frr_process_guard();
+	
 	while (1) {
 		int opt;
 

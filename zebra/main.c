@@ -233,7 +233,10 @@ int main(int argc, char **argv)
 	logicalrouter_configure_backend(LOGICALROUTER_BACKEND_NETNS);
 
 	frr_preinit(&zebra_di, argc, argv);
-
+        
+        // Guard to prevent a second instance of this daemon
+        frr_process_guard();
+	
 	frr_opt_add(
 		"bakz:e:l:r"
 #ifdef HAVE_NETLINK

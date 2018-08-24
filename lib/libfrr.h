@@ -101,7 +101,7 @@ extern struct thread_master *frr_init(void);
 
 DECLARE_HOOK(frr_late_init, (struct thread_master * tm), (tm))
 extern void frr_config_fork(void);
-
+extern void frr_process_guard(void);
 extern void frr_vty_serv(void);
 
 /* note: contains call to frr_vty_serv() */
